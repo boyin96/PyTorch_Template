@@ -26,7 +26,7 @@ class BaseTrainer(metaclass=ABCMeta):
     Base class for all trainers.
     """
     def __init__(self, model, criterion, metric_ftns, optimizer, config):
-        self.logger = get_logger("trainer")
+        self.logger = get_logger(config, name="trainer", state="train")
 
         # Initialize.
         self.device = torch.device(config.device)
@@ -44,7 +44,7 @@ class BaseTrainer(metaclass=ABCMeta):
         # Setup metric monitoring for monitoring model performance and saving best-checkpoint.
         self.monitor = cfg_trainer.get("monitor", "off")
         metric_names = ["loss"] + [met.__name__ for met in self.metric_ftns]
-        self.ep_metrics = EpochMetrics(metric_names, phases=("train", "valid"), monitoring=self.monitor)
+        self.ep_metrics = EpochMetrics(config, metric_names, phases=("train", "valid"), monitoring=self.monitor)
 
         # Train epoch.
         self.start_epoch = 1
@@ -58,7 +58,7 @@ class BaseTrainer(metaclass=ABCMeta):
         log_dir = Path(self.config.log_tensor_dir)
         if not log_dir.exists():
             log_dir.mkdir()
-        self.writer = TensorboardWriter(log_dir, cfg_trainer.tensorboard)
+        self.writer = TensorboardWriter(config, log_dir, cfg_trainer.tensorboard)
 
         # Create ckpt directory.
         self.checkpt_dir = Path(self.config.save_ckpt_dir)

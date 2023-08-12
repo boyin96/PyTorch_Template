@@ -20,11 +20,11 @@ from itertools import repeat
 from functools import partial, update_wrapper
 
 
-def get_logger(name=None, state="train"):
+def get_logger(config, name=None, state="train"):
     """
     Generate logger object.
     """
-    hydra_conf = OmegaConf.load("run/{}/.hydra/hydra.yaml".format(state))
+    hydra_conf = OmegaConf.load("outputs/{}/{}/.hydra/hydra.yaml".format(state, config.time_now))
     logging.config.dictConfig(OmegaConf.to_container(hydra_conf.hydra.job_logging, resolve=True))
     return logging.getLogger(name)
 

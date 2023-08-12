@@ -22,8 +22,8 @@ class TensorboardWriter:
     """
     Class for Tensorboard writer.
     """
-    def __init__(self, log_dir, enabled):
-        self.logger = get_logger("tensorboard-writer")
+    def __init__(self, config, log_dir, enabled):
+        self.logger = get_logger(config, name="tensorboard-writer", state="train")
         self.writer = SummaryWriter(log_dir) if enabled else None
 
         self.selected_module = ""
@@ -113,8 +113,8 @@ class EpochMetrics:
     """
     Class for the metrics of each epoch.
     """
-    def __init__(self, metric_names, phases=("train", "valid"), monitoring="off"):
-        self.logger = get_logger("epoch-metrics")
+    def __init__(self, config, metric_names, phases=("train", "valid"), monitoring="off"):
+        self.logger = get_logger(config, name="epoch-metrics", state="train")
         columns = list(product(metric_names, phases))
         self._data = pd.DataFrame(columns=columns)
         self.monitor_mode, self.monitor_metric = self._parse_monitoring_mode(monitoring)

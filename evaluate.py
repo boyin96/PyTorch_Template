@@ -21,7 +21,7 @@ from utils.util import instantiate, get_logger
 
 
 def eval_worker(config):
-    logger = get_logger("train", state="evaluate")
+    logger = get_logger(config, name="evaluate", state="evaluate")
 
     max_len = 70
 

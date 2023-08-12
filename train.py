@@ -29,7 +29,7 @@ np.random.seed(SEED)
 
 
 def train_worker(config):
-    logger = get_logger("train")
+    logger = get_logger(config, name="train", state="train")
 
     max_len = 70
 

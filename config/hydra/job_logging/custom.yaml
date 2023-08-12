@@ -14,9 +14,9 @@ handlers:
   file:
     class: logging.FileHandler
     formatter: detailed
-    filename: ${hydra.job.name}.log
+    filename: ${hydra.runtime.output_dir}/${hydra.job.name}.log
 root:
-  level: INFO
+  level: DEBUG
   handlers: [console, file]
 
 disable_existing_loggers: False

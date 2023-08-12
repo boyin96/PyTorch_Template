@@ -5,6 +5,7 @@ cpus:
 metrics:
   - _target_: model.metric.accuracy
   - _target_: model.metric.top_k_acc
+time_now: ${now:%Y-%m-%d}/${now:%H-%M-%S}
 
 defaults:
   - _self_
