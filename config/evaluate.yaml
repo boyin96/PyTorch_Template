@@ -1,0 +1,15 @@
+log_tensor_dir: tensorboard/
+checkpoint: ckpt/checkpoint-epoch5.pth
+device:
+cpus:
+metrics:
+  - _target_: model.metric.accuracy
+  - _target_: model.metric.top_k_acc
+
+defaults:
+  - _self_
+  - data: mnist_evaluate
+  - hparams: lenet_baseline
+  - status: evaluate
+  - hydra/run/dir: job_timestamp
+  - override hydra/job_logging: custom
