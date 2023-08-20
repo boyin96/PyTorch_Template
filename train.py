@@ -9,6 +9,7 @@ train.py: Description of main training.
 """
 
 import os
+import random
 import hydra
 import torch
 import numpy as np
@@ -22,10 +23,12 @@ from utils.util import instantiate, get_logger
 
 # Fix random seeds for reproducibility.
 SEED = 123
+random.seed(SEED)
+np.random.seed(SEED)
 torch.manual_seed(SEED)
+torch.cuda.manual_seed_all(SEED)
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
-np.random.seed(SEED)
 
 
 def train_worker(config):
