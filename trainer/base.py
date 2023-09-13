@@ -22,7 +22,7 @@ from logger.logger import TensorboardWriter, EpochMetrics
 
 
 class BaseTrainer(metaclass=ABCMeta):
-    """
+    r"""
     Base class for all trainers.
     """
     def __init__(self, model, criterion, metric_ftns, optimizer, config):
@@ -78,15 +78,15 @@ class BaseTrainer(metaclass=ABCMeta):
 
     @abstractmethod
     def _train_epoch(self, epoch):
-        """
+        r"""
         Training logic for an epoch.
         Args:
-            epoch: current epoch.
+            epoch: current epoch
         """
         raise NotImplementedError
 
     def train(self):
-        """
+        r"""
         Full training logic.
         """
         not_improved_count = 0
@@ -134,12 +134,12 @@ class BaseTrainer(metaclass=ABCMeta):
             self.logger.info('*' * max_line_width)
 
     def _save_checkpoint(self, epoch, save_best=False, save_latest=True):
-        """
+        r"""
         Saving checkpoints.
         Args:
-            epoch: current epoch number.
-            save_best: save a copy of current checkpoint file as "model_best.pth".
-            save_latest: save a copy of current checkpoint file as "model_latest.pth".
+            epoch: current epoch number
+            save_best: save a copy of current checkpoint file as "model_best.pth"
+            save_latest: save a copy of current checkpoint file as "model_latest.pth"
         """
         arch = type(self.model).__name__
         state = {
@@ -165,10 +165,10 @@ class BaseTrainer(metaclass=ABCMeta):
             self.logger.info("Renewing best checkpoint: .\{}".format(best_path))
 
     def _resume_checkpoint(self, resume_path):
-        """
+        r"""
         Resume from saved checkpoints.
         Args:
-            resume_path: absolute checkpoint path to be resumed.
+            resume_path: absolute checkpoint path to be resumed
         """
         # Load start.
         self.logger.info("Loading checkpoint: {} ...".format(resume_path))

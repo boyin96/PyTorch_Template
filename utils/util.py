@@ -8,10 +8,14 @@ r"""
 util.py: Description of util functions.
 """
 
+import random
+import torch
 import yaml
 import hydra
 import logging
 import logging.config
+
+import numpy as np
 
 from omegaconf import OmegaConf
 from pathlib import Path
@@ -20,8 +24,21 @@ from itertools import repeat
 from functools import partial, update_wrapper
 
 
-def get_logger(config, name=None, state="train"):
+def seed_everything(seed: int = 42):
+    r"""
+    Sets the seed for generating random numbers in PyTorch, Numpy, and Python.
+    Args:
+        seed (int): the desired seed
     """
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+
+
+def get_logger(config, name=None, state="train"):
+    r"""
     Generate logger object.
     """
     hydra_conf = OmegaConf.load("outputs/{}/{}/.hydra/hydra.yaml".format(state, config.time_now))
@@ -30,7 +47,7 @@ def get_logger(config, name=None, state="train"):
 
 
 def inf_loop(data_loader):
-    """
+    r"""
     Wrapper function for endless data loader.
     """
     for loader in repeat(data_loader):
@@ -38,7 +55,7 @@ def inf_loop(data_loader):
 
 
 def instantiate(config, *args, is_func=False, **kwargs):
-    """
+    r"""
     Wrapper function for hydra.utils.instantiate.
     Returns:
         1. return None if config.__target__ is None.
@@ -68,11 +85,11 @@ def instantiate(config, *args, is_func=False, **kwargs):
 
 
 def write_yaml(content, fname):
-    """
+    r"""
     Write yaml.
     Args:
-        content: yaml.
-        fname: path.
+        content: yaml
+        fname: path
     """
     with fname.open('wt') as handle:
         yaml.dump(content, handle, indent=2, sort_keys=False)
@@ -82,8 +99,8 @@ def write_conf(config, save_path):
     """
     Save config file.
     Args:
-        config: config.yaml.
-        save_path: path.
+        config: config.yaml
+        save_path: path
     """
     save_path = Path(save_path)
     save_path.parent.mkdir(parents=True, exist_ok=True)

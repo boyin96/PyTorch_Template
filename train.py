@@ -9,25 +9,19 @@ train.py: Description of main training.
 """
 
 import os
-import random
 import hydra
 import torch
-import numpy as np
 
 from pathlib import Path
 from omegaconf import OmegaConf
 from torchinfo import summary
 
 from trainer.trainer import Trainer
-from utils.util import instantiate, get_logger
+from utils.util import instantiate, get_logger, seed_everything
 
 # Fix random seeds for reproducibility.
 SEED = 123
-random.seed(SEED)
-np.random.seed(SEED)
-torch.manual_seed(SEED)
-torch.cuda.manual_seed(SEED)
-torch.cuda.manual_seed_all(SEED)
+seed_everything(SEED)
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 

@@ -19,7 +19,7 @@ from utils.util import get_logger
 
 
 class TensorboardWriter:
-    """
+    r"""
     Class for Tensorboard writer.
     """
     def __init__(self, config, log_dir, enabled):
@@ -35,10 +35,10 @@ class TensorboardWriter:
         self.timer = datetime.now()
 
     def set_step(self, step):
-        """
+        r"""
         Add scale to tensorboard.
         Args:
-            step: step.
+            step: step
         """
         self.step = step
         if step == 0:
@@ -49,7 +49,7 @@ class TensorboardWriter:
             self.timer = datetime.now()
 
     def __getattr__(self, name):
-        """
+        r"""
         If visualization is configured to use:
             return add_data() methods of tensorboard with additional information (step, tag) added.
         Otherwise:
@@ -69,7 +69,7 @@ class TensorboardWriter:
 
 
 class BatchMetrics:
-    """
+    r"""
     Class for the metrics of a batch.
     """
     def __init__(self, *keys, postfix="", writer=None):
@@ -85,11 +85,11 @@ class BatchMetrics:
             self._data[col].values[:] = 0
 
     def update(self, key, value, n=1):
-        """
+        r"""
         Update DataFrame.
         Args:
-            key: index of row.
-            value: loss/acc/or.
+            key: index of row
+            value: loss/acc/or
             n: 1.
         """
         if self.postfix:
@@ -110,7 +110,7 @@ class BatchMetrics:
 
 
 class EpochMetrics:
-    """
+    r"""
     Class for the metrics of each epoch.
     """
     def __init__(self, config, metric_names, phases=("train", "valid"), monitoring="off"):
@@ -121,10 +121,10 @@ class EpochMetrics:
         self.topk_idx = []
 
     def minimizing_metric(self, idx):
-        """
+        r"""
         The key function of sorted to sort dataframe based on specific metrics such as loss/valid.
         Args:
-            idx: the index of epoch such as epoch-i.
+            idx: the index of epoch such as epoch-i
         """
         if self.monitor_mode == "off":
             return 0
@@ -142,7 +142,7 @@ class EpochMetrics:
 
     @staticmethod
     def _parse_monitoring_mode(monitor_mode):
-        """
+        r"""
         Split model and metric.
         Args:
             monitor_mode: such as "min loss/valid"
@@ -156,7 +156,7 @@ class EpochMetrics:
         return monitor_mode, monitor_metric
 
     def is_improved(self):
-        """
+        r"""
         Check whether metric performance is improved.
         """
         if self.monitor_mode == "off":
@@ -168,7 +168,7 @@ class EpochMetrics:
         return last_epoch == best_epoch
 
     def keep_topk_checkpt(self, checkpt_dir, k=3):
-        """
+        r"""
         Keep top-k checkpoints by deleting k+1'th the best epoch index from dataframe for every epoch.
         """
         if len(self.topk_idx) > k and self.monitor_mode != "off":
@@ -189,11 +189,11 @@ class EpochMetrics:
                 pass
 
     def update(self, epoch, result):
-        """
+        r"""
         Save the results of each epoch.
         Args:
-            epoch: epoch.
-            result: results.
+            epoch: epoch
+            result: results
         """
         epoch_idx = "epoch-{}".format(epoch)
         self._data.loc[epoch_idx] = {tuple(k.split('/')): v for k, v in result.items()}

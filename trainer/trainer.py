@@ -16,7 +16,7 @@ from logger.logger import BatchMetrics
 
 
 class Trainer(BaseTrainer):
-    """
+    r"""
     Trainer class.
     """
     def __init__(self, model, criterion, metric_ftns, optimizer, config, data_loader=None,
@@ -45,10 +45,10 @@ class Trainer(BaseTrainer):
                                           writer=self.writer)
 
     def _train_epoch(self, epoch):
-        """
+        r"""
         Training logic for an epoch.
         Args:
-            epoch: current epoch.
+            epoch: current epoch
         """
         self.model.train()
         self.train_metrics.reset()
@@ -100,10 +100,10 @@ class Trainer(BaseTrainer):
         return log
 
     def _valid_epoch(self, epoch):
-        """
+        r"""
         Validate after training an epoch.
         Args:
-            epoch: integer, current training epoch.
+            epoch: integer, current training epoch
         Returns:
             A log that contains information about validation.
         """
@@ -128,7 +128,7 @@ class Trainer(BaseTrainer):
         return self.valid_metrics.result()
 
     def _progress(self, batch_idx):
-        """
+        r"""
         Return process.
         """
         base = "[{}/{} ({:.0f}%)]"
